@@ -105,6 +105,7 @@ int main(){
 	display(pol2);
 	Poly* pol3 = multiply(pol1,pol2);
 	display(pol3);
-	Poly* ans = reducePoly(pol3,arr1.size()+arr2.size()-2);
+	int highestDegree = arr1.size()+arr2.size()-2
+	Poly* ans = reducePoly(pol3,highestDegree);
 	display(ans);
 }
