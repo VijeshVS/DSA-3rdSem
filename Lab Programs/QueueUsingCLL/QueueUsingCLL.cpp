@@ -22,10 +22,8 @@ struct Queue {
     last = NULL;
   }
 
- 
   void enqueue(int data){
     if(isFull()) {
-      cout<<"Queue overflow"<<endl;
       return;
     }
 
@@ -34,45 +32,44 @@ struct Queue {
     if(last == NULL){
       temp->next = temp;
       last = temp;
+    } else {
+      temp->next = last->next;
+      last->next = temp;
+      last = temp;
     }
-
-    temp->next = last->next;
-    last->next = temp;
-
-    last = temp;
   }
 
   int dequeue(){
     if(isEmpty()){
-      cout<<"Queue underflow"<<endl;
       return -1;
     }
 
     currSize--;
-    if(last->next == NULL){
+    if(last->next == last){
       int ele = last->data;
-      free(last);
+      delete last;
+      last = NULL;
       return ele;
     }
 
     int ele = last->next->data;
     Node* save = last->next;
     last->next = last->next->next;
+    delete save;
+    return ele;
   }
 
   bool isFull(){
-    if(size == currSize) return true;
-    return false;
+    return size == currSize;
   }
 
   bool isEmpty(){
-    if(last == NULL) return true;
-    return false; 
+    return last == NULL;
   }
 
   void display(){
     if(last == NULL){
-      cout<<"List is empty"<<endl;
+      return;
     }
 
     Node* it = last->next;
@@ -83,18 +80,28 @@ struct Queue {
     while(it != last->next); 
     cout<<endl;
   }
-  
 };
 
 int main(){
-  Queue q(5);
-  q.enqueue(10);
-  q.enqueue(30);
-  q.enqueue(30);
-  q.enqueue(30);
-  q.enqueue(30);
-  q.display();
-  q.dequeue();
-  q.dequeue();
-  q.display();
+  int size, choice, value;
+  cin >> size;
+  Queue q(size);
+
+  while(cin >> choice) {
+    switch(choice) {
+      case 1:
+        cin >> value;
+        q.enqueue(value);
+        break;
+      case 2:
+        q.dequeue();
+        break;
+      case 3:
+        q.display();
+        break;
+      default:
+        return 0;
+    }
+  }
+  return 0;
 }
